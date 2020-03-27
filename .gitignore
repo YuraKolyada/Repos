@@ -1,3 +1,4 @@
 node_modules
 public/static/build
 public/static/config.js
+.DS_Store

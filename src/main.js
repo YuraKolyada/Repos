@@ -5,7 +5,7 @@ import React     from 'react';
 import ReactDOM  from 'react-dom';
 import { hot }   from 'react-hot-loader/root';
 
-import Main      from './components/containers/Main';
+import Main      from './components/pages/Main';
 
 const App = hot(Main);
 
