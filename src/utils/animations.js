@@ -6,7 +6,7 @@ import {
 export const Fade = ({ children, ...props }) => (
     <CSSTransition
         {...props}
-        timeout    = {300}
+        timeout    = {500}
         classNames = 'fade'
     >
         {children}

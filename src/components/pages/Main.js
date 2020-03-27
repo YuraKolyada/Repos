@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDebouncedCallback }       from 'use-debounce';
 
+import MainLayout                     from '../layouts/MainLayout';
+
 import Input                          from '../Input';
+import List                           from '../List';
+import Loader                         from '../Loader';
 
 import { fetchReposData }             from '../../utils/helpers';
+import { Fade }                       from '../../utils/animations';
 
 import './Main.less';
 
@@ -15,21 +20,28 @@ const initialReposData = {
 export default function Main() {
     const [ searchText, setSearchText ] = useState('');
     const [ activePage, setActivePage ] = useState(1);
+    const [ loading, setLoading ]       = useState(false);
     const [ reposData, setReposData ]   = useState(initialReposData);
 
     const handleChange = text => setSearchText(text);
     const [ handleDebouncedChange ] = useDebouncedCallback(handleChange, 500);
 
+    const fetchData = async () => {
+        setLoading(true);
+        await fetchReposData(setReposData, searchText, activePage);
+        setLoading(false);
+    }
+
     useEffect(() => {
         if (searchText.length) {
-            fetchReposData(setReposData, searchText, activePage);
+            fetchData();
         } else if (reposData.total) {
             setReposData(initialReposData);
         }
     }, [ searchText, activePage ]);
 
     return (
-        <div className='Main'>
+        <MainLayout>
             <header className='Main__header'>
                 <Input
                     name         = 'search'
@@ -39,7 +51,22 @@ export default function Main() {
                     className    = 'Main__search-input'
                 />
             </header>
-            <footer className='Main__footer'></footer>
-       </div>
+            <div className='Main__content'>
+                <Fade
+                    in
+                    appear
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    {loading
+                        ? <Loader />
+                        : <List items = {reposData.items} />
+                    }
+                </Fade>
+            </div>
+            <footer className='Main__footer'>
+
+            </footer>
+        </MainLayout>
     )
 }

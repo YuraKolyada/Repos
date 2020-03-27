@@ -5,9 +5,9 @@ import React     from 'react';
 import ReactDOM  from 'react-dom';
 import { hot }   from 'react-hot-loader/root';
 
-import Main      from './components/pages/Main';
+import MainPage  from './components/pages/Main';
 
-const App = hot(Main);
+const App = hot(MainPage);
 
 export function render() {
     ReactDOM.render(

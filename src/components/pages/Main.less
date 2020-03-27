@@ -1,20 +1,4 @@
-html,
-body,
-#root {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    
-    * {
-        box-sizing: border-box;        
-    }
-}
-
 .Main {
-    width: 100%;
-    height: 100%;
-    background-color: #eaeaea;
-
     &__header {
         width: 100%;
         height: 100px;
@@ -25,6 +9,11 @@ body,
         box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14),
                     0 3px 3px -2px rgba(0, 0, 0, .2),
                     0 1px 8px 0 rgba(0, 0, 0, .12);
+    }
+
+    &__content {
+        min-height: calc(100vh - 200px);
+        padding: 15px 10px;
     }
 
     &__search-input {

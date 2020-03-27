@@ -1,8 +1,17 @@
-import React from 'react';
+import React     from 'react';
+import PropTypes from 'prop-types';
 
 import './Card.less';
-
-export default function Card() {
-    return <div>Card</div>;
+function Card({ name }) {
+    return (
+        <div className='Card'>
+            <p className='Card__name'>{name}</p>
+        </div>
+    );
 }
-    
+
+Card.propTypes = {
+    name : PropTypes.string.isRequired
+}
+
+export default Card;
