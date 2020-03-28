@@ -1,4 +1,8 @@
 .Main {
+    @boxShadow: 0 3px 4px 0 rgba(0, 0, 0, .14),
+                0 3px 3px -2px rgba(0, 0, 0, .2),
+                0 1px 8px 0 rgba(0, 0, 0, .12);
+
     &__header {
         width: 100%;
         height: 130px;
@@ -7,9 +11,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14),
-                    0 3px 3px -2px rgba(0, 0, 0, .2),
-                    0 1px 8px 0 rgba(0, 0, 0, .12);
+        box-shadow: @boxShadow;
     }
 
     &__title {
@@ -50,6 +52,29 @@
         }
     }
 
+    &__search-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+    }
+
+    &__select {
+        margin-left: 15px;
+        min-width: 240px;
+
+        .Main__select--prefix__control {
+            border-radius: 8px;
+            min-height: 40px;
+            border-color: transparent;
+            box-shadow: @boxShadow;
+
+            &:hover, &:focus {
+                border-color: transparent;
+            }
+        }
+    }
+
     &__pagination.rc-pagination {
         font-family: 'Poppins', sans-serif;
         margin: 0;
@@ -75,5 +100,25 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        &__header {
+            height: 180px;
+        }
+
+        &__search-box {
+            flex-wrap: wrap;
+            width: 100%;
+        }
+    
+        &__select, &__search-input {
+            width: 90%;
+        }
+
+        &__select {
+            margin: 10px 0 0;
+            max-width: 500px;
+        }
     }
 }

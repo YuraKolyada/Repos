@@ -6,6 +6,12 @@ export const initionalState = {
         items : [],
         total : 0
     },
+    selectedSort : {
+        label     : 'Most stars',
+        value     : 'most_stars',
+        field     : 'stars',
+        direction : 'desc'
+    },
     isSearching  : false,
     activePage   : 1,
     isFailure    : false,
@@ -48,6 +54,11 @@ export const reposReducer = (state, action) => {
                 ...state,
                 searchText : action.payload,
                 activePage : 1
+            }
+        case c.SET_SORTING:
+            return {
+                ...state,
+                selectedSort: action.payload
             }
         default:
             return state;

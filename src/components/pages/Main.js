@@ -4,6 +4,7 @@ import React, {
     useReducer
 }                               from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import Select                   from 'react-select';
 
 import MainLayout               from '../layouts/MainLayout';
 
@@ -27,17 +28,18 @@ import './Main.less';
 
 export default function Main() {
     const [ state, dispatch ] = useReducer(reposReducer, initionalState);
-    const { searchText, activePage, isSearching, data, isFailure, errorMessage } = state;
+    const { searchText, activePage, isSearching, data, isFailure, errorMessage, selectedSort } = state;
 
     const handleChangeSearchText = text => dispatch({ type: c.SET_SEARCH_TEXT, payload: text.trim() });
     const handleChangeActivePage = page => dispatch({ type: c.SET_ACTIVE_PAGE, payload: page });
+    const handleChangeSort = selectedOption => dispatch({ type: c.SET_SORTING, payload: selectedOption });
     const [ handleDebouncedChangeText ] = useDebouncedCallback(handleChangeSearchText, 500);
     const memoizeFetchReposData = useCallback(memoizer(fetchReposData), []);
 
     const fetchData = async () => {
         try {
             dispatch({ type: c.REPOS_REQUEST });
-            const data = await memoizeFetchReposData({ searchText, activePage });
+            const data = await memoizeFetchReposData({ searchText, activePage, selectedSort });
             dispatch({ type: c.REPOS_SUCCESS, payload: data });
         } catch (e) {
             dispatch({ type: c.REPOS_ERROR, payload: e && e.message });
@@ -46,7 +48,7 @@ export default function Main() {
 
     useEffect(() => {
         if (searchText.length) fetchData();
-    }, [ searchText, activePage ]);
+    }, [ searchText, activePage, selectedSort.value ]);
 
     const renderListOrMessage = () => {
         if (!searchText) return <p>Please input search text</p>;
@@ -71,17 +73,29 @@ export default function Main() {
         );
     }
 
+    console.log(selectedSort);
+
     const renderHeader = () => {
         return (
             <header className='Main__header'>
                 <h1 className='Main__title'>Search Repositories</h1>
-                <Input
-                    name         = 'search'
-                    defaultValue = ''
-                    onChange     = {handleDebouncedChangeText}
-                    placeholder  = 'Search'
-                    className    = 'Main__search-input'
-                />
+                <div className='Main__search-box'>
+                    <Input
+                        name         = 'search'
+                        defaultValue = ''
+                        onChange     = {handleDebouncedChangeText}
+                        placeholder  = 'Search'
+                        className    = 'Main__search-input'
+                    />
+                    <Select
+                        options         = {c.SORT_OPTIONS}
+                        value           = {selectedSort}
+                        onChange        = {handleChangeSort}
+                        isSearchable    = {false}
+                        className       = 'Main__select'
+                        classNamePrefix = 'Main__select--prefix'
+                    />
+                </div>
             </header>
         );
     }

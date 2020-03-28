@@ -1,10 +1,11 @@
 import api from '../apiSingleton';
 
-export async function fetchReposData({ searchText, activePage }) {
+export async function fetchReposData({ searchText, activePage, selectedSort }) {
     const { items, total_count } = await api.repos.list({
-        q    : searchText,
-        page : activePage,
-        sort : 'stars'
+        q     : searchText,
+        page  : activePage,
+        sort  : selectedSort.field,
+        order : selectedSort.direction
     });
 
     return { items, total: total_count };
