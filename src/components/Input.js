@@ -24,6 +24,8 @@ function Input(props) {
             type         = {type || 'text'}
             placeholder  = {placeholder}
             onChange     = {handleChange}
+            autoComplete = 'off'
+            
         />
     );
 }

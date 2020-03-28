@@ -6,7 +6,7 @@ function Card({ name, url, owner }) {
     return (
         <div className='Card'>
             <div className='Card__header'>
-                <img src={owner.avatar_url} className='Card__avatar' />
+                <img src={owner.avatar_url} alt={owner.login} className='Card__avatar' />
                 <a href={owner.html_url} className='Card__author-name' target='_blank'>
                     {owner.login}
                 </a>
