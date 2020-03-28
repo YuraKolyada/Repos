@@ -8,7 +8,14 @@ import './List.less';
 function List({ items }) {
     return (
         <div className='List'>
-            {items.map(({ id, name }) => <Card key={id} name={name} />)}
+            {items.map(({ id, name, owner, html_url }) => (
+                <Card
+                    key   = {id}
+                    name  = {name}
+                    owner = {owner}
+                    url   = {html_url}
+                />
+            ))}
         </div>
     );
 }

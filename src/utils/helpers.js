@@ -1,11 +1,33 @@
 import api from '../apiSingleton';
 
-export async function fetchReposData(callback, searchText, page) {
+export async function fetchReposData({ searchText, activePage }) {
     try {
-        const { items, total_count } = await api.repos.list({ q: searchText, page });
+        const { items, total_count } = await api.repos.list({
+            q    : searchText,
+            page : activePage,
+            sort : 'stars'
+        });
 
-        callback({ items, total: total_count });
+        return { items, total: total_count };
     } catch (e) {
         console.warn(e);
+    }
+}
+
+export function memoizer(callback) {
+    const cachedResults = {};
+
+    return async args => {
+        try {
+            const key = JSON.stringify(args);
+        
+            if (!cachedResults[key]) {
+                cachedResults[key] = await callback(args);
+            }
+
+            return cachedResults[key];
+        } catch (e) {
+            return { items: [], total: 0, isFailure: true };
+        }
     }
 }

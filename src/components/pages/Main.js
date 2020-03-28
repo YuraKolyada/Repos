@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useDebouncedCallback }       from 'use-debounce';
+import React, {
+    useState,
+    useEffect,
+    useCallback
+}                               from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
-import MainLayout                     from '../layouts/MainLayout';
+import MainLayout               from '../layouts/MainLayout';
 
-import Input                          from '../Input';
-import List                           from '../List';
-import Loader                         from '../Loader';
+import Input                    from '../Input';
+import List                     from '../List';
+import Loader                   from '../Loader';
 
-import { fetchReposData }             from '../../utils/helpers';
-import { Fade }                       from '../../utils/animations';
+import {
+    fetchReposData, memoizer
+}                               from '../../utils/helpers';
+import { Fade }                 from '../../utils/animations';
 
 import './Main.less';
 
@@ -18,18 +24,19 @@ const initialReposData = {
 };
 
 export default function Main() {
-    const [ searchText, setSearchText ] = useState('');
-    const [ activePage, setActivePage ] = useState(1);
-    const [ loading, setLoading ]       = useState(false);
-    const [ reposData, setReposData ]   = useState(initialReposData);
+    const [ searchText, setSearchText ]   = useState('');
+    const [ activePage, setActivePage ]   = useState(1);
+    const [ isSearching, setIsSearching ] = useState(false);
+    const [ reposData, setReposData ]     = useState(initialReposData);
 
-    const handleChange = text => setSearchText(text);
-    const [ handleDebouncedChange ] = useDebouncedCallback(handleChange, 500);
+    const [ handleDebouncedChange ] = useDebouncedCallback(text => setSearchText(text.trim()), 500);
+    const memoizeFetchReposData     = useCallback(memoizer(fetchReposData), []);
 
     const fetchData = async () => {
-        setLoading(true);
-        await fetchReposData(setReposData, searchText, activePage);
-        setLoading(false);
+        setIsSearching(true);
+        const data = await memoizeFetchReposData({ searchText, activePage });
+        setReposData(data);
+        setIsSearching(false);
     }
 
     useEffect(() => {
@@ -40,9 +47,16 @@ export default function Main() {
         }
     }, [ searchText, activePage ]);
 
+    const renderList = () => {
+        if (!searchText) return (<p>Please input search text</p>);
+
+        return <List items = {reposData.items} />;
+    }
+
     return (
         <MainLayout>
             <header className='Main__header'>
+                <h1 className='Main__title'>Search Repositories</h1>
                 <Input
                     name         = 'search'
                     defaultValue = ''
@@ -58,9 +72,9 @@ export default function Main() {
                     mountOnEnter
                     unmountOnExit
                 >
-                    {loading
+                    {isSearching
                         ? <Loader />
-                        : <List items = {reposData.items} />
+                        : renderList()
                     }
                 </Fade>
             </div>
