@@ -1,0 +1,46 @@
+{
+  "name": "react-app",
+  "version": "1.0.0",
+  "description": "react-app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack-production.config.js --progress --display-modules"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "2.2.6",
+    "isomorphic-fetch": "2.2.1",
+    "prop-types": "15.7.2",
+    "query-string": "6.8.3",
+    "rc-pagination": "2.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-hot-loader": "4.12.16",
+    "react-select": "3.1.0",
+    "use-debounce": "3.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.7.0",
+    "@babel/core": "7.7.2",
+    "@babel/polyfill": "7.7.0",
+    "@babel/preset-env": "7.7.1",
+    "@babel/preset-react": "7.7.0",
+    "autoprefixer": "9.7.1",
+    "babel-loader": "8.0.6",
+    "cross-env": "6.0.3",
+    "css-loader": "3.2.0",
+    "file-loader": "4.2.0",
+    "less": "3.10.3",
+    "less-loader": "5.0.0",
+    "postcss-loader": "3.0.0",
+    "style-loader": "1.0.0",
+    "url-loader": "2.2.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "3.9.0",
+    "react-hot-loader": "^4.8.3",
+    "@hot-loader/react-dom": "^16.8.6"
+  }
+}
