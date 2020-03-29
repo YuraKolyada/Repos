@@ -31,8 +31,8 @@ export default function Main() {
     const { searchText, activePage, isSearching, data, isFailure, errorMessage, selectedSort } = state;
 
     const handleChangeSearchText = text => dispatch({ type: c.SET_SEARCH_TEXT, payload: text.trim() });
-    const handleChangeActivePage = page => dispatch({ type: c.SET_ACTIVE_PAGE, payload: page });
-    const handleChangeSort = selectedOption => dispatch({ type: c.SET_SORTING, payload: selectedOption });
+    const handleChangeActivePage = useCallback(page => dispatch({ type: c.SET_ACTIVE_PAGE, payload: page }), []);
+    const handleChangeSort = useCallback(selectedOption => dispatch({ type: c.SET_SORTING, payload: selectedOption }), []);
     const [ handleDebouncedChangeText ] = useDebouncedCallback(handleChangeSearchText, 500);
     const memoizeFetchReposData = useCallback(memoizer(fetchReposData), []);
 
@@ -53,7 +53,7 @@ export default function Main() {
     const renderListOrMessage = () => {
         if (!searchText) return <p>Please input search text</p>;
         if (isFailure) return <p className='Main__error-message'>{errorMessage}</p>;
-        if (searchText && !data.total) return renderMessageNotFoundRepos(searchText);
+        if (searchText && !data.total && !data.isDefault) return renderMessageNotFoundRepos(searchText);
 
         return <List items = {data.items || []} />;
     }
@@ -72,8 +72,6 @@ export default function Main() {
             </footer>
         );
     }
-
-    console.log(selectedSort);
 
     const renderHeader = () => {
         return (

@@ -1,5 +1,7 @@
 import api from '../apiSingleton';
 
+const AVAILABLE_TOTAL_SEARCH_RESULTS = 1000;
+
 export async function fetchReposData({ searchText, activePage, selectedSort }) {
     const { items, total_count } = await api.repos.list({
         q     : searchText,
@@ -7,8 +9,11 @@ export async function fetchReposData({ searchText, activePage, selectedSort }) {
         sort  : selectedSort.field,
         order : selectedSort.direction
     });
+    const total = total_count > AVAILABLE_TOTAL_SEARCH_RESULTS
+        ? AVAILABLE_TOTAL_SEARCH_RESULTS
+        : total_count;
 
-    return { items, total: total_count };
+    return { items, total };
 }
 
 export function memoizer(callback) {

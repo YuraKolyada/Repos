@@ -3,8 +3,9 @@ import * as c from '../constants';
 export const initionalState = {
     searchText   : '',
     data         : {
-        items : [],
-        total : 0
+        items     : [],
+        total     : 0,
+        isDefault : true
     },
     selectedSort : {
         label     : 'Most stars',

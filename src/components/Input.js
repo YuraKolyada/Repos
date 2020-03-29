@@ -24,8 +24,7 @@ function Input(props) {
             type         = {type || 'text'}
             placeholder  = {placeholder}
             onChange     = {handleChange}
-            autoComplete = 'off'
-            
+            autoComplete = 'off'     
         />
     );
 }
@@ -39,4 +38,4 @@ Input.propTypes = {
     onChange     : PropTypes.func,
 }
 
-export default Input;
+export default React.memo(Input);

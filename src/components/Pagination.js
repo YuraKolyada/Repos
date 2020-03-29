@@ -1,9 +1,10 @@
 import React      from 'react';
+import PropTypes  from 'prop-types';
 import Pagination from 'rc-pagination';
 
 import 'rc-pagination/assets/index.css';
 
-export default function AppPagination({ onChange, total, current, className }) {
+function AppPagination({ onChange, total, current, className }) {
     return (
         <Pagination
             current   = {current}
@@ -16,3 +17,12 @@ export default function AppPagination({ onChange, total, current, className }) {
         />
     )
 }
+
+AppPagination.propTypes = {
+    onChange  : PropTypes.func.isRequired,
+    className : PropTypes.string.isRequired,
+    total     : PropTypes.number.isRequired,
+    current   : PropTypes.number.isRequired
+}
+
+export default React.memo(AppPagination);
